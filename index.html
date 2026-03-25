@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Para Ti ❤️</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    font-family: Georgia, serif;
+    overflow:hidden;
+}
+
+/* INICIO */
+#inicio{
+    position:absolute;
+    width:100%;
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: linear-gradient(135deg,#ff5e78,#ff2e63);
+    z-index:10;
+}
+
+#btn{
+    font-size:6rem;
+    border:none;
+    background:none;
+    cursor:pointer;
+    animation:latido 1.2s infinite;
+}
+
+@keyframes latido{
+    0%,100%{transform:scale(1);}
+    50%{transform:scale(1.25);}
+}
+
+/* CONTENIDO */
+#contenido{
+    position:absolute;
+    width:100%;
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: linear-gradient(135deg,#ff9bb3,#ffc2d1);
+    color:#333;
+}
+
+/* LAYOUT */
+.contenedor{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    width:80%;
+    max-width:900px;
+}
+
+.texto{
+    width:45%;
+    text-align:left;
+}
+
+.linea{
+    width:60px;
+    height:2px;
+    background:#333;
+    margin:15px 0;
+}
+
+#contador{
+    margin-top:10px;
+    font-weight:bold;
+}
+
+/* ÁRBOL */
+.arbol{
+    width:45%;
+    position:relative;
+    height:350px;
+}
+
+.tronco{
+    position:absolute;
+    bottom:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:20px;
+    height:140px;
+    background:#6b3e26;
+    border-radius:10px;
+}
+
+.rama{
+    position:absolute;
+    width:6px;
+    height:80px;
+    background:#6b3e26;
+    transform-origin:bottom;
+}
+
+.copa{
+    position:absolute;
+    top:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:260px;
+    height:220px;
+}
+
+.hoja{
+    position:absolute;
+    font-size:12px;
+    color:red;
+    text-shadow:0 0 6px rgba(255,0,0,0.6);
+}
+
+/* FONDO */
+.fondo{
+    position:absolute;
+    color:rgba(255,255,255,0.2);
+    animation:flotar linear infinite;
+}
+
+@keyframes flotar{
+    from{transform:translateY(100vh);}
+    to{transform:translateY(-10vh);}
+}
+</style>
+</head>
+
+<body>
+
+<div id="inicio">
+    <button id="btn">❤️</button>
+</div>
+
+<div id="contenido">
+    <div class="contenedor">
+
+        <div class="texto">
+            <h1>El amor de mi vida</h1>
+            <div class="linea"></div>
+            <p>Hoy es un día muy importante, llevamos 6 meses increíbles, solo tú y yo amándonos cada día más...</p>
+            <p>Cuanto más tiempo estoy contigo, más te amo.</p>
+            <p><i>— I Love You —</i></p>
+            <div id="contador"></div>
+        </div>
+
+        <div class="arbol">
+            <div class="copa" id="copa"></div>
+            <div class="tronco"></div>
+
+            <div class="rama" style="left:50%; bottom:120px; transform:rotate(-30deg);"></div>
+            <div class="rama" style="left:50%; bottom:120px; transform:rotate(30deg);"></div>
+            <div class="rama" style="left:50%; bottom:90px; transform:rotate(-20deg);"></div>
+            <div class="rama" style="left:50%; bottom:90px; transform:rotate(20deg);"></div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+// 🔥 DEFINICIONES (ANTES FALLABAN)
+const btn = document.getElementById("btn");
+const inicio = document.getElementById("inicio");
+const contador = document.getElementById("contador");
+
+// BOTÓN
+btn.onclick = () => {
+    inicio.style.display = "none";
+};
+
+// CONTADOR
+const fechaInicio = new Date("2025-09-26T13:30:00");
+
+function actualizar(){
+    const ahora = new Date();
+    const diff = ahora - fechaInicio;
+
+    const s = Math.floor(diff/1000)%60;
+    const m = Math.floor(diff/60000)%60;
+    const h = Math.floor(diff/3600000)%24;
+    const d = Math.floor(diff/86400000);
+
+    const esDiaEspecial =
+        ahora.getFullYear() === 2026 &&
+        ahora.getMonth() === 2 &&
+        ahora.getDate() === 26;
+
+    if (esDiaEspecial) {
+        contador.innerText = "Hoy cumplimos 6 meses ❤️";
+    } else {
+        contador.innerText =
+            `${d} días ${h} horas ${m} minutos ${s} segundos`;
+    }
+}
+
+setInterval(actualizar,1000);
+
+// ÁRBOL
+const copa = document.getElementById("copa");
+
+for(let i=0;i<500;i++){
+    const x = Math.random()*260;
+    const y = Math.random()*220;
+
+    const dx = x - 130;
+    const dy = y - 100;
+
+    if((dx*dx)/(130*130) + (dy*dy)/(100*100) < 1){
+        const hoja = document.createElement("div");
+        hoja.className = "hoja";
+        hoja.innerText = "❤️";
+
+        hoja.style.left = x+"px";
+        hoja.style.top = y+"px";
+        hoja.style.fontSize = (Math.random()*8+8)+"px";
+
+        copa.appendChild(hoja);
+    }
+}
+
+// FONDO
+function crear(){
+    const c=document.createElement("div");
+    c.className="fondo";
+    c.innerText="❤️";
+
+    c.style.left=Math.random()*100+"vw";
+    c.style.fontSize=(Math.random()*50+20)+"px";
+    c.style.animationDuration=(Math.random()*6+6)+"s";
+
+    document.body.appendChild(c);
+
+    setTimeout(()=>c.remove(),12000);
+}
+
+setInterval(crear,600);
+</script>
+
+</body>
+</html>
